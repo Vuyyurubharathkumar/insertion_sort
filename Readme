@@ -1,26 +1,94 @@
-# ETL Project with Data Fusion, Airflow, and BigQuery
+GCP Data Pipeline Automation with Apache Airflow, Cloud Data Fusion & Looker
+Overview
+This project automates the extraction, processing, and visualization of employee data using Google Cloud Platform (GCP) services such as Cloud Composer (Apache Airflow), Cloud Data Fusion, BigQuery, Cloud Storage, and Looker. The pipeline is orchestrated with Apache Airflow, ensuring end-to-end automation from data ingestion to visualization.
 
-This repository contains code and configuration files for an Extract, Transform, Load (ETL) project using Google Cloud Data Fusion for data extraction, Apache Airflow/Composer for orchestration, and Google BigQuery for data loading.
+Project Workflow
+1. Cloud Composer Setup (Apache Airflow):
+Created a Cloud Composer environment for managing the ETL pipeline.
 
-Refer youtube Video for this project
+2. Cloud Data Fusion Instance:
+Set up an instance of Cloud Data Fusion for data ingestion and transformation.
 
-Part 1  :   [![YouTube](https://img.shields.io/badge/YouTube-Video-red)](https://youtu.be/lMaZnZldxcE)
-Part 2  :   [![YouTube](https://img.shields.io/badge/YouTube-Video-red)]((https://youtu.be/kxV4_xDchCc))
+3. Automated Data Extraction & Upload:
+Developed a Python script to extract employee data and save it as a CSV file.
 
+Uploaded the CSV file automatically to Google Cloud Storage (GCS).
 
+4. Data Processing with Cloud Data Fusion:
+Used Wrangler in Cloud Data Fusion for data cleansing and transformation.
 
+Designed a Batch Pipeline that processes the data.
 
-## Overview
+Connected the pipeline to BigQuery (Sink) and deployed it.
 
-The project aims to perform the following tasks:
+5. Apache Airflow DAG for Automation:
+Created an Airflow DAG to orchestrate the data workflow.
 
-1. **Data Extraction**: Extract data using python.
-2. **Data Masking**: Apply data masking & encoding techniques to sensitive information in Cloud Data Fusion before loading it into BigQuery.
-3. **Data Loading**: Load transformed data into Google BigQuery tables.
-4. **Orchestration**: Automate complete Data pipeline using Airflow ( Cloud Composer )
+Tuned necessary Airflow packages in GCP for seamless execution.
 
-![image](https://github.com/vishal-bulbule/etl-pipeline-datafusion-airflow/assets/143475073/755818fe-1cd3-4e1c-827d-35b963d6f414)
+Scheduled and automated the entire process.
 
-## Architecture
+6. Data Visualization with Looker:
+Connected BigQuery tables to Looker for interactive data exploration.
 
-![image](https://github.com/vishal-bulbule/etl-pipeline-datafusion-airflow/assets/143475073/0ea51bdb-99cc-4abf-8ccc-8be721462fc3)
+Designed custom dashboards to visualize employee trends, salary distribution, and department-wise analysis.
+
+Automated Looker reports for business insights.
+
+Technologies Used
+Google Cloud Platform (GCP)
+
+Cloud Composer (Apache Airflow)
+
+Cloud Data Fusion
+
+BigQuery
+
+Cloud Storage
+
+Looker (for data visualization)
+
+Python (for data extraction and Airflow DAGs)
+
+Wrangler (for data preprocessing)
+
+SQL (for querying data in BigQuery)
+
+Setup & Deployment
+1. Clone the Repository
+
+git clone https://github.com/your-repo-name.git
+cd your-repo-name
+
+2. Install Required Packages
+Ensure you have the necessary dependencies installed:
+
+pip install apache-airflow apache-airflow-providers-google google-cloud-storage pandas
+
+3. Deploy Airflow DAG
+Upload the dag.py file to your Airflow DAGs directory:
+
+cp dags/your_dag.py $AIRFLOW_HOME/dags/
+Restart Airflow to apply changes:
+
+airflow scheduler & airflow webserver
+
+4. Trigger the Pipeline
+Trigger the Airflow DAG manually via the UI or using:
+airflow dags trigger your_dag_name
+
+5. Access Looker Dashboards
+Connect Looker to BigQuery by selecting the correct dataset.
+
+Build custom dashboards using LookML.
+
+Share insights with stakeholders through scheduled reports.
+
+Future Improvements
+Implement real-time data streaming using Pub/Sub.
+
+Add error handling & logging for better debugging.
+
+Integrate machine learning models in BigQuery for predictive analytics.
+
+Automate Looker reports with advanced scheduling and alerts.
