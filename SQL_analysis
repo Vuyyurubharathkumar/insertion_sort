@@ -1,0 +1,88 @@
+---Get all employees with unique job titles
+SELECT DISTINCT job_title FROM `fabled-tesla-454518-h5.employee.emp_data`;
+
+
+---Get employees where job titles appear only once
+SELECT * 
+FROM `fabled-tesla-454518-h5.employee.emp_data` 
+WHERE job_title IN (
+    SELECT job_title 
+    FROM `fabled-tesla-454518-h5.employee.emp_data`
+    GROUP BY job_title
+    HAVING COUNT(*) = 1
+);
+
+
+---Check total number of records
+SELECT COUNT(*) AS total_records FROM `fabled-tesla-454518-h5.employee.emp_data`;
+
+
+-----View unique job titles and departments
+SELECT DISTINCT job_title FROM `fabled-tesla-454518-h5.employee.emp_data`;
+SELECT DISTINCT department FROM `fabled-tesla-454518-h5.employee.emp_data`;
+
+
+----Find the highest and lowest salaries
+SELECT 
+    MAX(salary) AS highest_salary, 
+    MIN(salary) AS lowest_salary 
+FROM `fabled-tesla-454518-h5.employee.emp_data`;
+
+
+----Find the average salary by department
+SELECT department, AVG(salary) AS avg_salary 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+GROUP BY department
+ORDER BY avg_salary DESC;
+
+
+----Find top 5 highest-paid employees
+SELECT full_name, job_title, department, salary 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+ORDER BY salary DESC
+LIMIT 5;
+
+
+----Count of employees per department
+SELECT department, COUNT(*) AS employee_count 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+GROUP BY department
+ORDER BY employee_count DESC;
+
+
+----Find the department with the highest total salary expenditure
+SELECT department, SUM(salary) AS total_salary 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+GROUP BY department
+ORDER BY total_salary DESC
+LIMIT 1;
+
+
+---Find employees without an email or address (missing data check)
+
+SELECT * FROM `fabled-tesla-454518-h5.employee.emp_data`
+WHERE email IS NULL OR email = '' 
+   OR address IS NULL OR address = '';
+
+---Find employees with duplicate email addresses (potential errors)
+SELECT email, COUNT(*) AS email_count 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+GROUP BY email
+HAVING COUNT(*) > 1;
+
+
+----Find top departments by employee count
+SELECT department, COUNT(*) AS employee_count 
+FROM `fabled-tesla-454518-h5.employee.emp_data`
+GROUP BY department
+ORDER BY employee_count DESC;
+
+---Find employees earning significantly above the average salary in their department
+SELECT full_name, job_title, department, salary 
+FROM `fabled-tesla-454518-h5.employee.emp_data` emp1
+WHERE salary > (
+    SELECT AVG(salary) * 1.5 
+    FROM `your_dataset.your_table` emp2
+    WHERE emp1.department = emp2.department
+)
+ORDER BY salary DESC;
